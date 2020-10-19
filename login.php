@@ -1,12 +1,6 @@
 <?php session_start();
 error_reporting(0);
-if(empty($_SESSION["userName"])){
-    //require 'headerTabUnlog.php';
-}else{
-    //require 'headertab.php';
-}
 ?>
-<?php ?>
 <?php
 //Database Authentication
 require("ab918ef1654932ce2d9620f5483f03bc.inc");
@@ -36,26 +30,28 @@ if(!empty($_POST['userName']) and !empty($_POST['password'])) {
 
         /* fetch value */
         while ($row = $result->fetch_assoc()) {
-            $loginInUser= $row["userName"];
+			$loginInUser=null;
+			$loginInUser= $row["userName"];
             $userToken= $row["userToken"];
             $_SESSION["userName"] = $loginInUser;
             $_SESSION["userToken"] = $userToken;
             break; // to be save
-    }
+	}
 
         /* close statement */
         $stmt->close();
     }
 
-    require 'headerTab.php';
     
     
     setcookie('userToken', $userToken,false,"/",false);
     mysqli_free_result($result);
     $mysqli->close();
 
-    echo "<meta http-equiv=\"refresh\" content=\"0; url=./myActivities.php\">";
+if ($loginInUser==null){
+        echo "<script>alert('Username or Password incorrect')</script>";
 
+}  else {echo "<meta http-equiv=\"refresh\" content=\"0; url=./myActivities.php\">";}
 	}
 
 ?>

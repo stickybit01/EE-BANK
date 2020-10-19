@@ -1,6 +1,6 @@
-<?php     
+	<?php     
 
-if(empty($_SESSION["userName"])){
+if($_COOKIE["userToken"] == ''){
     die("Cannot load page no permission");
 }else{
     require 'headertab.php';
